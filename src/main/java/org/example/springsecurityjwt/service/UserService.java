@@ -5,10 +5,10 @@ import org.example.springsecurityjwt.entity.UserEntity;
 import org.example.springsecurityjwt.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +31,16 @@ public class UserService {
 
     public UserEntity save(UserEntity userEntity) {
         userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
+        return userRepository.save(userEntity);
+    }
+
+    public void deleteUserByName(int id) {
+        userRepository.deleteById(id);
+    }
+
+    public UserEntity editUser(UserEntity userEntity) {
+        Optional<UserEntity> userModel=userRepository.findById(userEntity.getId());
+        userEntity.setPassword(userModel.get().getPassword());
         return userRepository.save(userEntity);
     }
 }

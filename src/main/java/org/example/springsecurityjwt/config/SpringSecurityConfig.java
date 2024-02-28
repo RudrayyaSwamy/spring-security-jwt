@@ -28,6 +28,7 @@ public class SpringSecurityConfig {
     private JwtAuthFilter authFilter;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.cors();
         return httpSecurity.csrf().disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/addUser","/welcome","/authenticate").permitAll()
